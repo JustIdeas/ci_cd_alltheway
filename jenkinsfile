@@ -1,0 +1,53 @@
+pipeline {
+    
+    // install golang 1.14 on Jenkins node
+    agent any
+    tools {
+        go '1.18.3'
+    }
+    environment {
+		DOCKERHUB_CREDENTIALS=credentials('dh_credentials')
+	    GO114MODULE = 'on'
+        GO111MODULE = 'off'
+        CGO_ENABLED = 0 
+        GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
+    }
+    stages {
+        stage("git") {
+            steps {
+                echo 'Clonando repositório'
+                git url: 'https://github.com/JustIdeas/ci_cd_alltheway.git', branch: 'main'
+                
+            }
+        }
+        stage("unit-test") {
+            steps {
+                dir("players_app") {
+                    echo 'UNIT TEST EXECUTION STARTED'
+                    sh 'go test -coverprofile=coverage.out'        
+                }
+            }
+        }
+        stage("build") {
+            steps {
+                dir("players_app") {
+                    echo 'Iniciando build'
+                    sh 'go version'
+                    sh 'make image VERSION=latest'    
+                }
+            }
+        }
+        stage('publish') {
+            steps {
+                echo 'publishing image do dockerhub'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                dir("players_app") {
+                    sh 'ls -l'
+                    sh 'go version'
+                    sh 'make publish VERSION=latest'
+                }
+                echo 'ansible to be done'
+            }
+        }
+    }
+}
