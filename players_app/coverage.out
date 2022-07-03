@@ -1,0 +1,13 @@
+mode: set
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/InMemoryPlayerStore.go:6.52,11.2 1 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/InMemoryPlayerStore.go:21.54,25.2 3 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/InMemoryPlayerStore.go:28.63,32.2 3 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/main.go:8.13,11.61 2 0
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/main.go:11.61,13.3 1 0
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/server.go:20.74,22.18 2 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/server.go:23.23,24.26 1 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/server.go:25.22,26.25 1 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/server.go:30.72,33.16 2 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/server.go:37.2,37.22 1 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/server.go:33.16,35.3 1 1
+/media/sf_Visual_code_Projects/Neoway_test_case/ci_cd_alltheway/players_app/server.go:40.73,43.2 2 1
