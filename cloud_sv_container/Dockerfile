@@ -5,7 +5,7 @@ RUN  mkdir -p /etc/apt/keyrings && curl -fsSL https://download.docker.com/linux/
 RUN echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-RUN apt-get update && apt-get install -y make build-essential docker-ce docker-ce-cli containerd.io docker-compose openssh-server
+RUN apt-get update && apt-get install -y make build-essential docker-ce docker-ce-cli containerd.io docker-compose openssh-server python3.9 python3-pip
 RUN systemctl enable ssh
 RUN mkdir /ssh_keys
 COPY ssh_key_pub/cloud_access.pub /ssh_keys
