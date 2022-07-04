@@ -42,12 +42,14 @@ pipeline {
                 echo 'publishing image do dockerhub'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 dir("players_app") {
-                    sh 'ls -l'
-                    sh 'go version'
                     sh 'make publish VERSION=latest'
                 }
-                echo 'ansible to be done'
             }
         }
+        stage('ansible_deploy') {
+            steps {
+                sh 'ansible-playbook --private-key=$ANSIBLE_PKEY deploy_playersapp.yaml'
+            }
+    }
     }
 }
