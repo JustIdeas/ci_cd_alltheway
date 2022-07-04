@@ -2,7 +2,7 @@
   hosts: cloud
   tasks:
     - name: deploy container image based
-      become: no
+      become: yes
       community.docker.docker_container:
         name: players-app
         image: justideas/players-app:latest
