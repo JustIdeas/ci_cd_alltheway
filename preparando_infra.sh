@@ -22,6 +22,7 @@ permission_dockerIndocker() {
     #Para que o docker do jenkins utilizei do mesmo ambiente do docker do host, é preciso mapear o docker.sock, como também, ajustar permissão de execução.
     #Mais detalhes do mapeamento, no dockercomposefile
     chmod 777 /var/run/docker.sock
+    chmod 400 ci_cd_alltheway/cloud_sv_container/ssh_key_client/cloud_access
 }
 
 git_install() {
