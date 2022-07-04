@@ -1,0 +1,3 @@
+[cloud]
+172.21.0.2
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

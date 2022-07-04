@@ -12,9 +12,7 @@ services:
     cloud_container:
         build:
             context: ./cloud_sv_container
-        restart: unless-stopped
-        ports:
-            - "5000:5000"
+        restart: unless-stopped        
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - ./cloud_sv_container/ssh_key_pub:/ssh_keys
