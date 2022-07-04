@@ -1,10 +1,10 @@
 - host: cloud_container
-  task:
-      - name: Build imagem dockerhub
-        sudo: no
-        command: make image VERSION=latest
+  tasks:
+    - name: Build imagem dockerhub
+      sudo: no
+      command: make image VERSION=latest
 
-      - name: Inicializar container
-        sudo: no
-        command: make run-docker VERSION=latest
+    - name: Inicializar container
+      sudo: no
+      command: make run-docker VERSION=latest
         
