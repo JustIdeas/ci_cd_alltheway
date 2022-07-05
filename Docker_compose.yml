@@ -6,13 +6,27 @@ services:
         restart: unless-stopped
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
+            - ./jenkins_files/jenkins_volume:/var/jenkins_home
+        networks:
+            private_network:
+                ipv4_address: 172.32.2.20
         ports:
             - "53400:8080"
             - "53000:50000"
     cloud_container:
         build:
             context: ./cloud_sv_container
-        restart: unless-stopped        
+        restart: unless-stopped
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - ./cloud_sv_container/ssh_key_pub:/ssh_keys
+        networks:
+            private_network:
+                ipv4_address: 172.32.2.21
+networks:
+    private_network:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: "172.32.2.0/16"

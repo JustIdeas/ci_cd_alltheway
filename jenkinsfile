@@ -53,6 +53,6 @@ pipeline {
                     sh 'ansible-playbook -i cloud.hosts --private-key=../cloud_sv_container/ssh_key_client/cloud_access --user root deploy_playersapp.yaml'    
                 }
             }
-    }
+        }
     }
 }
