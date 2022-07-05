@@ -50,6 +50,7 @@ pipeline {
             steps {
                 dir('ansible_play') {
                     sh 'chmod 400 ../cloud_sv_container/ssh_key_client/cloud_access '
+                    sh 'export ANSIBLE_HOST_KEY_CHECKING=False'
                     sh 'ansible-playbook -i cloud.hosts --private-key=../cloud_sv_container/ssh_key_client/cloud_access --user root deploy_playersapp.yaml'    
                 }
             }

@@ -5,7 +5,7 @@ all: docker_install permissions unpack_jenkinshome
 
 USERNAME_BUILD   = admin
 TOKEN_API_JK     = 1118bbf9f941612d92418b42217f6f5d30
-IP_PORT_JK		 = 192.168.4.37:53400
+IP_PORT_JK		 = 192.168.4.38:53400
 
 docker_install:
 			#garantindo a instalação do docker, seguindo a recomendação da página oficial.
@@ -17,10 +17,10 @@ docker_install:
 				gnupg \
 				lsb-release
 			mkdir -p /etc/apt/keyrings
-			curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+			curl -fsSL https://download.docker.com/linux/ubuntu/gpg |  gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 			echo \
-				"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-				$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+				"deb [arch=$$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+				$$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 			apt-get update
 			apt-get install -y \
 					docker-ce \
@@ -52,3 +52,9 @@ trigger_build:
 			#Para ciração do do trigger pela API do jenkins, é preciso criar uma API token para o usuário, e depois obter o Jenkins-Crumb com o comando abaixo
 			# wget -q --auth-no-challenge --user {user} --password {password} --output-document - 'http://{ip}:{port}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
 			curl -I -X POST "http://$(USERNAME_BUILD):$(TOKEN_API_JK)@$(IP_PORT_JK)/job/players_app_pipeline/build" -H "Jenkins-Crumb:583f894a2ae86d07687729dbebd11f892571ab16e11a21197c928b87fa7d9984"
+
+docker_build:
+			docker-compose -f Docker_compose.yml build
+
+bringup:
+			docker-compose -f Docker_compose.yml up -d
