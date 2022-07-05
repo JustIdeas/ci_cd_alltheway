@@ -46,6 +46,7 @@ unpack_jenkinshome:
 			bash ./download_jk_volume.sh
 			mv jenkins_home.tar.zst jenkins_files/
 			tar --zstd -xf  jenkins_files/jenkins_home.tar.zst -C jenkins_files/
+			chmod 777 -R jenkins_files/jenkins_volume/
 			rm -f jenkins_files/jenkins_home.tar.zst
 
 trigger_build:
@@ -58,3 +59,6 @@ docker_build:
 
 bringup:
 			docker-compose -f Docker_compose.yml up -d
+
+bringdown:
+			docker-compose -f Docker_compose.yml kill
