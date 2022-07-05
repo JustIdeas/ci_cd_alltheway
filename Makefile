@@ -4,7 +4,7 @@ SHELL := /bin/bash
 all: docker_install permissions unpack_jenkinshome
 
 USERNAME_BUILD   = admin
-TOKEN_API_JK     = 1118bbf9f941612d92418b42217f6f5d30
+TOKEN_API_JK     = 116d6b2f8091888a73a81cc60a184100af
 IP_PORT_JK		 = 192.168.4.38:53400
 
 docker_install:
