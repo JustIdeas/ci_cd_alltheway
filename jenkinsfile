@@ -1,10 +1,11 @@
 pipeline {
     
-    // install golang 1.14 on Jenkins node
+    // Instalando go no ambiente jenkins
     agent any
     tools {
         go '1.18.3'
     }
+    // configurando as variáveis de ambiente
     environment {
 		DOCKERHUB_CREDENTIALS=credentials('dh_credentials')
 	    GO114MODULE = 'on'
@@ -13,6 +14,7 @@ pipeline {
         GOPATH = "${JENKINS_HOME}/jobs/${JOB_NAME}/builds/${BUILD_ID}"
     }
     stages {
+        // stage responsável por realizar o clone do repo na branch main (próximos passos é aceitar a branch como variável)
         stage("git") {
             steps {
                 echo 'Clonando repositório'
@@ -20,6 +22,7 @@ pipeline {
                 
             }
         }
+        // Aproveitado que o projeto possui um teste unitário e colocado o mesmo para rodar durante a pipeline
         stage("unit-test") {
             steps {
                 dir("players_app") {
@@ -28,6 +31,7 @@ pipeline {
                 }
             }
         }
+        // recria a imagem docker caso o teste tenha sido concluido com sucesso
         stage("build") {
             steps {
                 dir("players_app") {
@@ -37,6 +41,7 @@ pipeline {
                 }
             }
         }
+        // Publica a imagem em um repositório público para que futuramente o ansible crie o ambiente a partir dela
         stage('publish') {
             steps {
                 echo 'publishing image do dockerhub'
@@ -46,12 +51,14 @@ pipeline {
                 }
             }
         }
+        // Realiza o deploy da infra em um servidor cloud (que está em outro container, para simulação), realizando a conexão por ssh com chave privada
+        // e subindo o container com base na imagem do dockerhub (anteriormente publicada) na porta 9000
         stage('ansible_deploy') {
             steps {
                 dir('ansible_play') {
+                    // chmo 400 foi nescessário ser feito na chave privada, pois caso não fosse, a sessão ssh não era estabelecida, por falta de segurança
                     sh 'chmod 400 ../cloud_sv_container/ssh_key_client/cloud_access '
-                    sh 'export ANSIBLE_HOST_KEY_CHECKING=False'
-                    sh 'export ANSIBLE_HOST_KEY_CHECKING=False; ansible-playbook -i cloud.hosts --private-key=../cloud_sv_container/ssh_key_client/cloud_access --user root deploy_playersapp.yaml'    
+                    sh 'export ANSIBLE_HOST_KEY_CHECKING=False; ansible-playbook -i cloud.hosts --private-key=../cloud_sv_container/ssh_key_client/cloud_access --user root deploy_playersapp.yaml'
                 }
             }
         }
