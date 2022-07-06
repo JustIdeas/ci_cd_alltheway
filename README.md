@@ -6,7 +6,7 @@ A idéia deste projeto é a criação de um ambiente DebOps, utilizando do jenki
 # Requisítos de ambiente
 Para rodar este repositório, será nescessário:
 - Máquina Linux (preferencia ubuntu 22.04, pois foi o que usei em uma VM) com instalação padrão;
-- Instalação do GIT;
+- Instalação do GIT e make;
 - Todas as execuções do Makefile devem ser executadas na pasta raiz deste projeto, como também esteja como root (sudo su);
 
 # Ambiente e suas particularidades
@@ -65,3 +65,47 @@ Na máquina (container) do jenkins também foram instalados o ansible e alguns p
 ### Fluxograma do ambiente
 ![Alt drawIO](Funcionamento.png)
 
+### Passos para execução do cenário
+Detalhes antes de iniciar:
+Ajustar variável de ip e porta do Jenkins no Makefile e se estiver rodando em uma VM, deixe em bridge a interface para facilitar o acesso ao ambiente. Se alterar a porta, lembrar de alterar no docker-compose do container jenkins também, pois não estão utilizando variável global de ambiente.
+
+Estar como super user no terminal (sudo su)
+
+* Clonar repositório;
+
+Rodar processo de preparação do ambiente
+* ```# make all```
+
+Realiza a instalação do docker na maquina host
+* ```# make docker_install```
+
+Builda com o docker-compose os containers jenkins e cloud
+* ```# make docker_build```
+
+sobe os container
+* ```# make bringup```
+
+Após os containers subirem, acessar o jenkins pela WEB e tentar realizar o login
+* usuário: admin
+* senha: lockinet
+
+Se teve sucesso no acesso, pode iniciar o processo de trigger
+* ```# make trigger_build```
+
+Após o trigger, acessar o jenkins e avaliar o build em progresso pela pipeline. Caso tenha sucesso o processo completo, a aplicação
+players-app estará rodando em outro container escutando na porta 9000. Isso ocorre pelo fato do ansible realizar o deploy do container de forma automatizada, com base na imagem na qual foi buildada no processo da pipeline.
+
+## Pontos a desenvolver e próximos passos
+
+* Montar um cenário totalmente cloud e com os acessos devidamente padronizados, tendo cada "DEV" sua private key para cada projeto, sendo separada do ADM da infraestrutura;
+* Conforme o ambiente vai para a núvem, o jenkins possuirá o volume criado de forma adequada, e não a partir de um arquivo estático descompactado;
+* ajustar as permissões de todo ambiente, para execução a partir do usuário da máquina, e não do root;
+* trigger do build poderia ser realizado diretamente pelo gitlab ou github, onde caso tenha um push na branch, o próprio git dispara para a API do jenkins o build;
+* realizar um estudo para avaliar a interabilidade entre kubernets, ansible e terraform (nescessário um estudo sobre);
+* algumas variáveis são compartilhadas entre scripts, onde poderiam estar como variáveis de ambiente;
+* serviços principais, como jenkins e o container cloud deveriam estar sendo monitorados (estudo para implementação do grafana para este caso)
+* Talvez para cada microserviço, ter um no qual somente realiza coletas de uso (nescessário uma interface padrão para todos microserviços, para faciliar a implementação do monitoramento)
+
+## Considerações finais
+
+Foi gratificante realizar este estudo e compreender um pouco do que um profissional DevOps faz no seu dia a dia, e saiu deste estudo com muito mais conhecimento e espero que tenha ajudado compartilhando este material.
