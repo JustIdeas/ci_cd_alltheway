@@ -1,7 +1,7 @@
 [![GitHub contributors](https://img.shields.io/github/contributors/JustIdeas/ci_cd_alltheway)](https://github.com/JustIdeas/ci_cd_alltheway/graphs/contributors) [![GitHub issues](https://img.shields.io/github/issues/JustIdeas/ci_cd_alltheway)](https://github.com/coderjojo/JustIdeas/ci_cd_alltheway/issues) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/JustIdeas/ci_cd_alltheway/pulls) [![HitCount](https://views.whatilearened.today/views/github/JustIdeas/ci_cd_alltheway.svg)](https://github.com/JustIdeas/ci_cd_alltheway/) 
 
 # Resumo sobre o projeto
-A idéia deste projeto é a criação de um ambiente DebOps, utilizando do jenkins para a criação de uma pipeline na qual possui stages de git, test, build, publish e deploy, sendo o deploy realizado pelo ansible, com um playbook especifico.
+A idéia deste projeto é a criação de um ambiente DevOps, utilizando do jenkins para a criação de uma pipeline na qual possui stages de git, test, build, publish e deploy, sendo o deploy realizado pelo ansible, com um playbook especifico.
 
 # Requisítos de ambiente
 Para rodar este repositório, será nescessário:
@@ -10,12 +10,12 @@ Para rodar este repositório, será nescessário:
 - Todas as execuções do Makefile devem ser executadas na pasta raiz deste projeto, como também esteja como root (sudo su);
 
 # Ambiente e suas particularidades
-Todo o ambiente roda em containers, sendo um o jenkins e o outro uma máquina simulando um servidor na núvem (onde o ansible irá dar o deploy da infra). o volume mapeado para o jenkins é um volume fixo, no qual é realizado um download do volume compactado do drive e depois descompactado na pasta onde o volume do container jenkins está esperando. Além disto, o acesso ao servidor da núvem só é feito por quem tem a chave ssh privada, não sendo permitido outro tipo de acesso.
+Todo o ambiente roda em containers, sendo um o jenkins e o outro uma máquina simulando um servidor na nuvem (onde o ansible irá dar o deploy da infra). o volume mapeado para o jenkins é um volume fixo, no qual é realizado um download do volume compactado do drive e depois descompactado na pasta onde o volume do container jenkins está esperando. Além disto, o acesso ao servidor da nuvem só é feito por quem tem a chave ssh privada, não sendo permitido outro tipo de acesso.
 
 ## Responsabilidade dos scripts e detalhes sobre os arquivos e pastas
 ### *Makefile*
 Primeiro script a ser executado após clone do repositório. Irá instalar o docker, dar permissionamento nos arquivos nescessários para rodar "docker in docker" e irá realizar o download do volume fixo do jenkins. 
-Detalhe que em um ambiente de produção, geralmente se mapeia no próprio host o volume ou em algum servidor de arquivos, só utilizei desta forma para que o tudo rodasse em um único local não considerando espaço em núvem e nem que o usuário deste projeto fosse realizar toda a configuração manualmente.
+Detalhe que em um ambiente de produção, geralmente se mapeia no próprio host o volume ou em algum servidor de arquivos, só utilizei desta forma para que o tudo rodasse em um único local não considerando espaço em nuvem e nem que o usuário deste projeto fosse realizar toda a configuração manualmente.
 
 Neste MakeFile existe algumas funções, sendo elas
 
@@ -79,10 +79,10 @@ Rodar processo de preparação do ambiente
 Builda com o docker-compose os containers jenkins e cloud
 * ```# make docker_build```
 
-sobe os container
+Sobe os container
 * ```# make bringup```
 
-Após os containers subirem, acessar o jenkins pela WEB e tentar realizar o login
+Após os containers subirem, acessar o jenkins pela WEB e tentar realizar o login (porta default de acesso é 53400)
 * usuário: admin
 * senha: lockinet
 
@@ -95,15 +95,16 @@ players-app estará rodando em outro container escutando na porta 9000. Isso oco
 ## Pontos a desenvolver e próximos passos
 
 * Montar um cenário totalmente cloud e com os acessos devidamente padronizados, tendo cada "DEV" sua private key para cada projeto, sendo separada do ADM da infraestrutura;
-* Conforme o ambiente vai para a núvem, o jenkins possuirá o volume criado de forma adequada, e não a partir de um arquivo estático descompactado;
+* Conforme o ambiente vai para a nuvem, o jenkins possuirá o volume criado de forma adequada, e não a partir de um arquivo estático descompactado;
 * Ajustar as permissões de todo ambiente, para execução a partir do usuário da máquina, e não do root;
 * Trigger do build poderia ser realizado diretamente pelo gitlab ou github, onde caso tenha um push na branch, o próprio git dispara para a API do jenkins o build;
 * Realizar um estudo para avaliar a interabilidade entre kubernets, ansible e terraform (nescessário um estudo sobre);
 * Algumas variáveis são compartilhadas entre scripts, onde poderiam estar como variáveis de ambiente;
 * Serviços principais, como jenkins e o container cloud deveriam estar sendo monitorados (estudo para implementação do grafana para este caso)
-* Talvez para cada microserviço, ter um no qual somente realiza coletas de uso (nescessário uma interface padrão para todos microserviços, para faciliar a implementação do monitoramento)
-* Implementar o teste da infraestrutura ao final do deploy, para garantir o fluxo como completo
+* Talvez para cada microserviço, ter um no qual somente realiza coletas de uso (nescessário uma interface padrão para todos microserviços, para faciliar a implementação do monitoramento);
+* Implementar o teste da infraestrutura ao final do deploy, para garantir o fluxo como completo;
+* Melhorar a questão de cuidado com chaves no momento de pipeline, onde o jenkins acaba armazenando em plaintext no seu ambiente local.
 
 ## Considerações finais
 
-Foi gratificante realizar este estudo e compreender um pouco do que um profissional DevOps faz no seu dia a dia, e saiu deste estudo com muito mais conhecimento e espero que tenha ajudado compartilhando este material.
+Foi gratificante realizar este estudo e compreender um pouco do que um profissional DevOps faz no seu dia a dia, e sai deste estudo com muito mais conhecimento e espero que tenha ajudado compartilhando este material.
