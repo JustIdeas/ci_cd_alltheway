@@ -63,5 +63,5 @@ Na máquina (container) do jenkins também foram instalados o ansible e alguns p
 
 ## Fluxo de execução do ambiente
 ### Fluxograma do ambiente
-![Alt drawIO](Funcionamento.svg)
+![Alt drawIO](Funcionamento.png)
 
