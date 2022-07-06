@@ -76,9 +76,6 @@ Estar como super user no terminal (sudo su)
 Rodar processo de preparação do ambiente
 * ```# make all```
 
-Realiza a instalação do docker na maquina host
-* ```# make docker_install```
-
 Builda com o docker-compose os containers jenkins e cloud
 * ```# make docker_build```
 
