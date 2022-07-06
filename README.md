@@ -62,5 +62,6 @@ Também foi definido que o trigger seria remoto e pela API, onde no usuário adm
 Na máquina (container) do jenkins também foram instalados o ansible e alguns plugins nescessários para o projeto, tais como GO, GIT e DOCKER
 
 ## Fluxo de execução do ambiente
-### Funcionamento e passos a seguir
+### Fluxograma do ambiente
+![Alt drawIO](Funcionamento.svg)
 
