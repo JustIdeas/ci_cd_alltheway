@@ -12,8 +12,6 @@ IP_PORT_JK		 = 192.168.4.38:53400
 
 docker_install:
 			#garantindo a instalação do docker, seguindo a recomendação da página oficial.
-
-			apt-get remove docker docker-engine docker.io containerd runc
 			apt-get update
 			apt-get install -y \
 				ca-certificates \
