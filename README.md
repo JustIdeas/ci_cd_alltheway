@@ -96,12 +96,13 @@ players-app estará rodando em outro container escutando na porta 9000. Isso oco
 
 * Montar um cenário totalmente cloud e com os acessos devidamente padronizados, tendo cada "DEV" sua private key para cada projeto, sendo separada do ADM da infraestrutura;
 * Conforme o ambiente vai para a núvem, o jenkins possuirá o volume criado de forma adequada, e não a partir de um arquivo estático descompactado;
-* ajustar as permissões de todo ambiente, para execução a partir do usuário da máquina, e não do root;
-* trigger do build poderia ser realizado diretamente pelo gitlab ou github, onde caso tenha um push na branch, o próprio git dispara para a API do jenkins o build;
-* realizar um estudo para avaliar a interabilidade entre kubernets, ansible e terraform (nescessário um estudo sobre);
-* algumas variáveis são compartilhadas entre scripts, onde poderiam estar como variáveis de ambiente;
-* serviços principais, como jenkins e o container cloud deveriam estar sendo monitorados (estudo para implementação do grafana para este caso)
+* Ajustar as permissões de todo ambiente, para execução a partir do usuário da máquina, e não do root;
+* Trigger do build poderia ser realizado diretamente pelo gitlab ou github, onde caso tenha um push na branch, o próprio git dispara para a API do jenkins o build;
+* Realizar um estudo para avaliar a interabilidade entre kubernets, ansible e terraform (nescessário um estudo sobre);
+* Algumas variáveis são compartilhadas entre scripts, onde poderiam estar como variáveis de ambiente;
+* Serviços principais, como jenkins e o container cloud deveriam estar sendo monitorados (estudo para implementação do grafana para este caso)
 * Talvez para cada microserviço, ter um no qual somente realiza coletas de uso (nescessário uma interface padrão para todos microserviços, para faciliar a implementação do monitoramento)
+* Implementar o teste da infraestrutura ao final do deploy, para garantir o fluxo como completo
 
 ## Considerações finais
 
