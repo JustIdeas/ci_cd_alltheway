@@ -3,6 +3,12 @@
 # Resumo sobre o projeto
 A idéia deste projeto é a criação de um ambiente DebOps, utilizando do jenkins para a criação de uma pipeline na qual possui stages de git, test, build, publish e deploy, sendo o deploy realizado pelo ansible, com um playbook especifico.
 
+# Requisítos de ambiente
+Para rodar este repositório, será nescessário:
+- Máquina Linux (preferencia ubuntu 22.04, pois foi o que usei em uma VM) com instalação padrão;
+- Instalação do GIT;
+- Todas as execuções do Makefile devem ser executadas na pasta raiz deste projeto, como também esteja como root (sudo su);
+
 # Ambiente e suas particularidades
 Todo o ambiente roda em containers, sendo um o jenkins e o outro uma máquina simulando um servidor na núvem (onde o ansible irá dar o deploy da infra). o volume mapeado para o jenkins é um volume fixo, no qual é realizado um download do volume compactado do drive e depois descompactado na pasta onde o volume do container jenkins está esperando. Além disto, o acesso ao servidor da núvem só é feito por quem tem a chave ssh privada, não sendo permitido outro tipo de acesso.
 
@@ -26,6 +32,8 @@ Neste MakeFile existe algumas funções, sendo elas
 ```trigger_build``` - Realiza uma chamada POST para o Jenkins, onde dispara o build da pipeline;
 
 ```bringdown``` - Derruba os containers.
+
+Além disto, existe uma variável chamada ```IP_PORT_JK```, na qual deve ser alterada para o ip da interface de acesso da máquina ou VM que o projeto está rodando.
 
 ### Arquivo *Docker_compose.yml*
 Para subir o ambiente como um todo, deve ser executado o docker-compose passando este arquivo, com o parâmetro build. Desta forma, todas as imagens nescessárias do jenkins e da aplicação cloud (local) irá ser realizado de forma automática (cada projeto possui um Dockerfile).
@@ -52,3 +60,7 @@ A pipeline foi configurada para utilizar o arquivo jenkins do repositório (via 
 Também foi definido que o trigger seria remoto e pela API, onde no usuário admin, foi criado um token da API para que possamos realizar o trigger utilizando a API do jenkins. 
 
 Na máquina (container) do jenkins também foram instalados o ansible e alguns plugins nescessários para o projeto, tais como GO, GIT e DOCKER
+
+## Fluxo de execução do ambiente
+### Funcionamento e passos a seguir
+
